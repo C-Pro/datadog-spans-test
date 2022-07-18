@@ -17,8 +17,11 @@ func main() {
 	defer cancel()
 	tracer.Start()
 
+	spanM, ctx := tracer.StartSpanFromContext(ctx, "OrderBookSaver.run")
+	defer spanM.Finish()
+
 	wg := sync.WaitGroup{}
-	for i := 0; i < 4; i++ {
+	for i := 0; i < 8; i++ {
 		wg.Add(1)
 		go func(ctx context.Context, wg *sync.WaitGroup) {
 			defer wg.Done()
